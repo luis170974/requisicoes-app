@@ -1,11 +1,12 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import { Equipamento } from './models/equipamento.model';
 import { EquipamentoService } from './services/equipamento.service';
 import { ToastrService } from 'ngx-toastr';
+
 
 
 @Component({
@@ -30,10 +31,10 @@ export class EquipamentoComponent implements OnInit {
   
       this.form = this.fb.group({
         id: new FormControl(""),
-        numeroDeSerie: new FormControl(""),
-        nome: new FormControl(""),
-        preco: new FormControl(""),
-        dataFabricacao: new FormControl("")
+        numeroDeSerie: new FormControl("", [Validators.required]),
+        nome: new FormControl("", [Validators.required, Validators.minLength(3)]),
+        preco: new FormControl("", [Validators.required, Validators.min(0)]),
+        dataFabricacao: new FormControl("", [Validators.required])
       })
   }
 
@@ -67,15 +68,19 @@ export class EquipamentoComponent implements OnInit {
     if (equipamento)
       this.form.setValue(equipamento);
 
+
+
     try {
       await this.modalService.open(modal).result;
-
+      
+    if(this.form.dirty && this.form.valid){
       if (!equipamento)
-        await this.equipamentoService.inserir(this.form.value)
-      else
-        await this.equipamentoService.editar(this.form.value);
+      await this.equipamentoService.inserir(this.form.value)
+    else
+      await this.equipamentoService.editar(this.form.value);
 
       this.toastrService.success(`O equipamento foi salvo com sucesso`,"Cadastro de Equipamentos");
+    }
     } catch (error) {
       if(error != "fechar" && error != "0" && error != "1")
       this.toastrService.error("Houve um erro ao salvar o equipamento. Tente novamente","Cadastro de Equipamentos");
@@ -92,4 +97,5 @@ export class EquipamentoComponent implements OnInit {
       this.toastrService.error("Houve um erro ao excluir o equipamento. Tente novamente","Cadastro de Equipamentos");
    }
   }
+
 }

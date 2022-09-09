@@ -36,4 +36,8 @@ export class DepartamentoService {
   public selecionarTodos(): Observable<Departamento[]> {
     return this.registros.valueChanges();
   }
+
+
 }
+
+

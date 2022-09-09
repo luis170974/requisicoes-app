@@ -6,6 +6,7 @@ import { EquipamentoComponent } from './equipamento.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { EquipamentoService } from './services/equipamento.service';
 
 
 
@@ -19,6 +20,11 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
     ReactiveFormsModule,
     EquipamentoRoutingModule,
     CurrencyMaskModule
-  ]
+  ],
+
+  providers: [
+    EquipamentoService ]
+
 })
+
 export class EquipamentoModule { }

@@ -20,8 +20,12 @@ import { DepartamentoModule } from './departamentos/departamento.module';
 import { EquipamentoModule } from './equipamentos/equipamento.module';
 import { ToastrModule } from 'ngx-toastr';
 
+import ptBr from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
 import { FuncionarioModule } from './funcionarios/funcionario.module';
 import { RequisicaoModule } from './requisicoes/requisicao.module';
+
+registerLocaleData(ptBr);
 
 @NgModule({
   declarations: [

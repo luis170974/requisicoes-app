@@ -15,13 +15,7 @@ export class FuncionarioService {
       this.firestore.collection<Funcionario>("funcionarios");
   }
 
-  selecionarFuncionarioLogado(email: string){
-    return this.firestore.collection<Funcionario>('funcionarios', ref => ref.where('email','==', email)).valueChanges()
-    .pipe(
-      take(1),
-      map(funcionarios => funcionarios[0])
-    );
-  }
+
 
   public async inserir(registro: Funcionario): Promise<any> {
     if (!registro)
@@ -56,6 +50,18 @@ export class FuncionarioService {
 
           return funcionarios;
         })
+      )
+  }
+
+  public selecionarFuncionarioLogado(email: string): Observable<Funcionario> {
+    return this.firestore
+      .collection<Funcionario>("funcionarios", ref => {
+        return ref.where("email", "==", email)
+      })
+      .valueChanges()
+      .pipe(
+        take(1),
+        map(funcionarios => funcionarios[0])
       )
   }
 }

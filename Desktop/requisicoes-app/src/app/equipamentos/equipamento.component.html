@@ -36,8 +36,8 @@
               <tr *ngFor="let equipamento of (equipamentos$ | async)">
                 <td>{{ equipamento.numeroDeSerie }}</td>
                 <td>{{ equipamento.nome }}</td>
-                <td>{{ equipamento.preco | currency: 'R$ '}}</td>
-                <td>{{ equipamento.dataFabricacao | date: 'dd/MM/yyyy'}}</td>
+                <td>{{ equipamento.preco | currency }}</td>
+                <td>{{ equipamento.dataFabricacao | date: 'dd/MM/yyyy' }}</td>
                 <td class="d-grid d-md-block">
                   <button
                     (click)="gravar(modal, equipamento)"
@@ -72,8 +72,7 @@
           <label for="numeroDeSerie" class="form-label">Número de Série do Equipamento</label>
           <input formControlName="numeroDeSerie"
             class="form-control"
-            type="text"
-            required minlength="3">
+            type="text">
 
         </div>
   
@@ -82,23 +81,22 @@
           <input formControlName="nome"
             class="form-control"
             type="text"
-            placeholder="Digite o nome"
-            required minlenght="3">
+            placeholder="Digite o nome">
         </div>
 
         <div class="form-group mb-3">
             <label for="preco" class="form-label">Preço</label>
             <input formControlName="preco"
+              [ngClass]="(preco?.touched && preco?.invalid) ? 'is-invalid' : ''"
               currencyMask [options]="{ prefix: 'R$', thousands:'.', decimal: ',', align: 'left'}"
               class="form-control"
               type="text"
-              placeholder="Digite o preço"
-              required>
+              placeholder="R$ 0,00">
           </div>
 
           <div class="form-group mb-3">
             <label for="dataFabricacao" class="form-label">Data de Fabricação</label>
-            <input formControlName="dataFabricacao" type="date" class="form-control" required>
+            <input formControlName="dataFabricacao" type="date" class="form-control">
           </div>
   
       </div>

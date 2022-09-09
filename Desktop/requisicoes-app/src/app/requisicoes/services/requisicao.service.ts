@@ -45,23 +45,47 @@ export class RequisicaoService {
               .collection<Departamento>("departamentos")
               .doc(requisicao.departamentoId)
               .valueChanges()
-              .subscribe(x => requisicao.departamento = x)
+              .subscribe(d => requisicao.departamento = d);
               
-              this.firestore.
-              collection<Equipamento>("equipamentos")
-              .doc(requisicao.equipamentoId)
-              .valueChanges()
-              .subscribe(x => requisicao.equipamento = x)
-
               this.firestore.
               collection<Funcionario>("funcionarios")
               .doc(requisicao.funcionarioId)
               .valueChanges()
-              .subscribe(x => requisicao.funcionario = x)
+              .subscribe(f => requisicao.funcionario = f);
+
+              if(requisicao.equipamentoId){
+                this.firestore.
+                collection<Equipamento>("equipamento")
+                .doc(requisicao.equipamentoId)
+                .valueChanges()
+                .subscribe(e => requisicao.equipamento = e);
+              }
+
+
+
           });
 
           return requisicoes;
         })
+      );
+  }
+
+
+  public selecionarRequisicoesFuncionarioAtual(id: string) {
+    return this.selecionarTodos()
+      .pipe(
+        map(requisicoes => {
+          return requisicoes.filter(req => req.funcionarioId === id);
+        })
       )
   }
+
+ //<-- public selecionarRequisicoesDoDepartamento(id: string) {
+ //   return this.selecionarTodos()
+ //     .pipe(
+ //       map(requisicoes => {
+ //         return requisicoes.filter(req => req.departamentoId === id);
+ //       })
+ //     )
+ // }
 }
